@@ -8,6 +8,7 @@ import {CountryList, Services,
 } from '.././InitFormInput';
 import SimpleReactValidator from 'simple-react-validator';
 import ChipButtonComponent from '../../../component/ChipButtonComponent';
+import FlagsComponent from '../../../component/FlagsComponent'
 
 interface InitProps {
     Component?: React.ReactNode;
@@ -80,14 +81,10 @@ const FormPage1 = forwardRef((props: InitProps, ref: Ref<RefObject>) =>  {
       <>     
         <div style={styles.Wrapper}>
             
-            <SelectCountryComponent
-                defaultCountry={country}
-                onChange={(v) => handleSelectCountry(v)} 
-                Country={CountryList} 
-                id="select1"
-            >
-                <input name="country" value={country} type="hidden"/>
-            </SelectCountryComponent>
+    
+            <FlagsComponent onClickCountry={(v:any) => handleSelectCountry(v)}>
+              <input name="country" value={country} type="hidden"/>  
+            </FlagsComponent>  
             {simpleValidator.current.message('country', country, 'required')}
          
             {

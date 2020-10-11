@@ -1,8 +1,7 @@
 import React, {FC} from 'react';
 import { Route, Switch } from "react-router";
 import Home from './views/Home';
-// import FormInputContainer from './views/FormInput/FormInputContainer'
-import FormInputContainer from './views/FormInputs/FormInputContainer'
+import FormInputContainer from './views/FormInputs/FormInputContainer';
 type InitRouteComponent =  {
     component?: object;
     children?: RenderProp<any>;
