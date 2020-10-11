@@ -2,7 +2,6 @@ import React, { useContext,useRef,Ref, useImperativeHandle,useState, forwardRef,
 import {Types} from '../../../GlobalState/Contexts/FormPage1/FormPage1Context'
 import {AppContext} from '../../../GlobalState/AppContext'
 import ErrorMessage from '../../../component/ErrorMessage';
-import SelectCountryComponent from '../../../component/SelectCountryComponent';
 import {CountryList, Services,
         ServicesAndCurrency, 
 } from '.././InitFormInput';
@@ -82,7 +81,9 @@ const FormPage1 = forwardRef((props: InitProps, ref: Ref<RefObject>) =>  {
         <div style={styles.Wrapper}>
             
     
-            <FlagsComponent onClickCountry={(v:any) => handleSelectCountry(v)}>
+            <FlagsComponent
+              countriesList={CountryList} 
+              onClickCountry={(v:any) => handleSelectCountry(v)}>
               <input name="country" value={country} type="hidden"/>  
             </FlagsComponent>  
             {simpleValidator.current.message('country', country, 'required')}

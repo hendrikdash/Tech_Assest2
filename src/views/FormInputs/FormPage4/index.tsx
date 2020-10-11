@@ -2,6 +2,7 @@ import React, {useContext,FC,useState, useEffect} from 'react';
 import {AppContext} from '../../../GlobalState/AppContext'
 import { ServicesAndCurrency} from '../InitFormInput';
 import { RequestPostApi } from '../../../RequestAPI';
+import { AnyAaaaRecord } from 'dns';
 interface InitProps {
     Component?: React.ReactNode;
     setClickForm?: any;
@@ -45,28 +46,32 @@ const styles = {
 
 const FormPage4: FC<InitProps> = (props) =>  {
   const {  state : {form_page1,form_page2,form_page3} } = useContext(AppContext);
-  const [stateName,setStateName] = useState('') 
- 
+  const [stateName,setStateName] = useState('');
+  const [messageShow,setMessageShow] = useState(false);
+  const [message,setMessage] = useState<any>({class: '',text: ''});
+
 
   const submitForm = () => {
+    setMessageShow(false);
     const datas = {
       ...form_page1, ...form_page2, ...form_page3, country: stateName
     }
-
-    const successStatus = new Promise(function(resolve, reject) {
-      return RequestPostApi('http://localhost:3000/test/post/data',datas )
-      .then((responseData:responseDataType) => {
-        if (responseData.status === 200) {
-          resolve(responseData.data);
+    const postData = async () => {
+        try{
+            const ratesApi = await RequestPostApi('http://localhost:3000/test/post/data',datas );
+            return ratesApi
+        } catch(e) {
+          return {status: 400, data: null};
         }
-        else {
-          reject(Error("Error!!!"));
-        }
-      });
-    })
+    }
 
-    successStatus.then((data:any) => {
-      // console.log("hoaasdsd", data);
+    postData().then((result:any) => {
+      if (result.status !== 400){
+          setMessage({text: "Submit Success!", class: 'alert alert-success'});
+      } else {
+        setMessage({text: "Submit Errors!", class: 'alert alert-danger'});
+      }
+      setMessageShow(true);
     })
 
   }
@@ -75,11 +80,21 @@ const FormPage4: FC<InitProps> = (props) =>  {
     let temp = ServicesAndCurrency.find((elem:any) => elem.value === form_page1.country)?.state;
     setStateName(temp);
   },[form_page1]);
+
+ 
   
   return (
       <>     
         <div style={styles.Wrapper}>
-          
+            {
+              messageShow === true? 
+              <div className={message.class} role="alert" style={{borderRadius: '5px', fontSize: '16px'}}>
+                {message.text}
+              </div> 
+              :
+              undefined
+            }
+
             <ul className="list-group-lg" style={styles.UlList}>
               <li className="list-group-item" style={styles.LiList}>Country : {stateName}</li>
               <li className="list-group-item" style={styles.LiList}>Service : {form_page1.service}</li>
@@ -101,6 +116,14 @@ const FormPage4: FC<InitProps> = (props) =>  {
                   <button type="button" className="btn btn-outline-info btn-lg" onClick={submitForm}>Submit</button>
               </div>
             </div>
+
+
+
+
+            
+
+
+
 
             
         </div>

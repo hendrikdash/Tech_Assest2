@@ -75,27 +75,25 @@ const FormPage2 = forwardRef((props: InitProps, ref: Ref<RefObject>) =>  {
   }
 
   const CalculateSendAmountToReceive = (value:string) => {
+
     const floatValue = parseInt(value);
     const choosedRate = ServicesAndCurrency.find((item:any) => item.value === form_page1.country)?.rate ;
     const datas  = {base:'IDR', symbols: choosedRate};
-  
-    const ratess = new Promise(function(resolve, reject) {
-      return RequestGetApi('https://api.exchangeratesapi.io/latest',datas )
-      .then((responseData:responseDataType) => {
-        if (responseData.status === 200) {
-           resolve(responseData.data);
-         }
-         else {
-           reject(Error("Error!!!"));
-         }
-     });
-    })
 
-    ratess.then((data:any) => {
-      const {rates} = data;
-      const findCountryCode = ServicesAndCurrency.find((elem:any) => elem.value === form_page1.country).type;
-      setReceiveAmount((floatValue * rates[choosedRate]).toFixed(2).toString() 
-      +" " +findCountryCode.toString());
+    const ratess = async () => {
+        try{
+            const ratesApi = await RequestGetApi('https://api.exchangeratesapi.io/latest',datas );
+            return ratesApi
+        } catch(e) {
+          return {status: 400, data: null};
+        }
+    }
+
+    ratess().then((result) => {
+      const {data,status}:any = result;
+      if (status === 200) {
+          setReceiveAmount((floatValue * data.rates[choosedRate]).toFixed(0).toString());
+      }
     })
     
   }

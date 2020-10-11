@@ -23,18 +23,10 @@ const styles = {
 interface InitPropsComponent {
   onClickCountry:any;
   label?: string;
+  countriesList: object[];
 }
 
 const FlagsComponent : FC<InitPropsComponent> = (props) => {
-  const [countries] = useState([
-    { code: 'us', title: 'UNITED STATE'},
-    { code: 'gb', title: 'UNITED KINGDOM'},
-    { code: 'de', title: 'GERMANY'},
-    { code: 'fr', title: 'FRANCE'},
-    { code: 'ng', title: 'NIGERIA'},
-    { code: 'it', title: 'ITALY'},
-  ]);
-
   const [toggleContents, setToggleContents] = useState<any>("Select a country");
 
   return (
@@ -45,7 +37,7 @@ const FlagsComponent : FC<InitPropsComponent> = (props) => {
 
               <Dropdown
                   onSelect={eventKey => {
-                    const { code, title }:any = countries.find(({ code }) => eventKey === code);
+                    const { code, title }:any = props.countriesList.find(({ code }:any) => eventKey === code);
                     
                     props.onClickCountry(eventKey?.toUpperCase());
                     setToggleContents(
@@ -60,8 +52,12 @@ const FlagsComponent : FC<InitPropsComponent> = (props) => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu className="dropdown-menu dropdown-menu-right ">
-                    {countries.map(({ code, title }) => (
-                      <Dropdown.Item key={code} eventKey={code}><FlagIcon code={code}/>{title}</Dropdown.Item>
+                    {props.countriesList.map(({ code, title }:any) => (
+                      <Dropdown.Item key={code} eventKey={code}>
+                        {/* <FlagIcon code={code}/> */}
+                          <span className={'flag-icon flag-icon-'+code}></span>
+                          {title}
+                        </Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
               </Dropdown>

@@ -1,17 +1,23 @@
 import React from 'react';
 
 
-export const CountryList: string[] = ["US", "GB", "FR", "DE", "IT", "NG"];
+export const CountryList: object[] = [
+  { code: 'us', title: 'UNITED STATE'},
+  { code: 'gb', title: 'UNITED KINGDOM'},
+  { code: 'sg', title: 'SINGAPORE'},
+  { code: 'fr', title: 'FRANCE'},
+  { code: 'my', title: 'MALAYSIA'},
+  { code: 'it', title: 'ITALY'},
+];
 
 export  const ServicesAndCurrency : any = [
   {type: [1,2,3], value: "US", rate: 'USD', state: 'UNITED STATES OF AMERICA'},
   {type: [1,2], value: "GB", rate: 'GBP', state: 'UNITED KINGDOM OF GREAT BRITAIN'},
   {type: [2,3], value: "FR", rate: 'EUR', state: 'FRANCE'},
-  {type: [1,2], value: "DE", rate: 'EUR', state: 'GERMANY'},
+  {type: [1,2], value: "SG", rate: 'SGD', state: 'SINGAPORE'},
   {type: [3], value: "IT", rate: 'EUR', state: 'ITALY'},
-  {type: [2], value: "NG", rate: 'NGN', state: 'NIGERIA'},
+  {type: [2], value: "MY", rate: 'MYR', state: 'MALAYSIA'},
 ];
-
 
 
 
