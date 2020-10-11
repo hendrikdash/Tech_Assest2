@@ -1,6 +1,5 @@
 import React, {useState,FC} from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import FlagIcon from './FlagIcon'
 
 
 const styles = {
@@ -42,7 +41,7 @@ const FlagsComponent : FC<InitPropsComponent> = (props) => {
                     props.onClickCountry(eventKey?.toUpperCase());
                     setToggleContents(
                     <>
-                      <FlagIcon code={code}/> 
+                    <span className={'flag-icon flag-icon-'+code}></span>
                       {title}
                     </>);
                   }}
